@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* =========================================
+       1. Fade-Up Animations on Scroll
+    ========================================= */
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -15,30 +18,79 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // Apply fade up to major sections
     const elementsToAnimate = document.querySelectorAll('.core-card, .service-item, .portfolio-card, .blog-card, .tech-stack, .timeline-item, .about-content');
     
     elementsToAnimate.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
         observer.observe(el);
     });
 
-    // Lightbox Functionality
+    /* =========================================
+       2. Theme Toggle (Dark/Light Mode)
+    ========================================= */
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    // Check saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if(themeIcon) themeIcon.textContent = '☀️';
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        if(themeIcon) themeIcon.textContent = '🌗';
+    }
+
+    if(themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                if(themeIcon) themeIcon.textContent = '🌗';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                if(themeIcon) themeIcon.textContent = '☀️';
+            }
+        });
+    }
+
+    /* =========================================
+       3. Custom Magnetic Cursor
+    ========================================= */
+    const cursor = document.querySelector('.cursor');
+    if (cursor) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const interactiveElements = document.querySelectorAll('a, button, .portfolio-card.block-link, img[src^="assets/design"], img[src^="assets/DESIGN"]');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+    }
+
+    /* =========================================
+       4. Lightbox Functionality
+    ========================================= */
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.querySelector('.lightbox-close');
 
-    // Add click event to all graphic design images
-    const graphicImages = document.querySelectorAll('img[src^="assets/DESIGN"]');
+    const graphicImages = document.querySelectorAll('img[src^="assets/design"], img[src^="assets/DESIGN"]');
     graphicImages.forEach(img => {
-        img.style.cursor = 'pointer';
+        img.style.cursor = 'none'; // hide default cursor if custom is active
         img.addEventListener('click', () => {
             if (lightbox) {
                 lightbox.style.display = 'flex';
-                // Force reflow
-                void lightbox.offsetWidth;
+                void lightbox.offsetWidth; // Force reflow
                 lightbox.classList.add('show');
                 lightboxImg.src = img.src;
             }
@@ -54,9 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeLightbox);
-    }
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
 
     if (lightbox) {
         lightbox.addEventListener('click', (e) => {

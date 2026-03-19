@@ -23,6 +23,7 @@
                 <a href="#services">Services</a>
                 <a href="#portfolio">Work</a>
                 <a href="#about">About</a>
+                <button id="theme-toggle" class="btn btn-outline" aria-label="Toggle Light/Dark Theme" style="padding: 10px 15px; border: none; font-size: 1.2rem; cursor: pointer; background: transparent;"><span id="theme-icon">🌗</span></button>
                 <a href="#contact" class="btn btn-primary">Book a Call</a>
             </nav>
         </div>
@@ -33,7 +34,7 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <span class="eyebrow text-accent mb-10 block">WELCOME TO MY WORLD</span>
-                <h1 class="hero-title">Hi, I'm <span class="accent">Aaron Ngetich</span><br>a <span class="typing">Professional ICT Specialist.</span></h1>
+                <h1 class="hero-title">Hi, I'm <span class="accent">Aaron Ngetich</span><br>a <span class="typing"></span></h1>
                 <p class="hero-subtitle">Building High-Performance Digital Solutions for Modern Businesses. I specialize in integrating technical infrastructure with administrative excellence to scale operations.</p>
                 <div class="hero-ctas">
                     <a href="#contact" class="btn btn-primary">Book a Strategy Call</a>
@@ -204,18 +205,22 @@
                 <h2 class="section-title mb-10">The <span class="accent">"How"</span></h2>
                 <p class="section-desc mb-40">Precision tools for fast, scalable results.</p>
                 
-                <ul class="stack-list">
-                    <li>
-                        <strong>Design:</strong>
-                        <span>Figma / Adobe Suite</span>
+                <ul class="skill-bars">
+                    <li class="skill-item">
+                        <div class="skill-info"><span>Figma / Adobe Suite</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
                     </li>
-                    <li>
-                        <strong>Development:</strong>
-                        <span>AI-Driven Prototyping / Web Design</span>
+                    <li class="skill-item">
+                        <div class="skill-info"><span>AI-Driven Prototyping</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
                     </li>
-                    <li>
-                        <strong>Support:</strong>
-                        <span>Managed ICT Services</span>
+                    <li class="skill-item">
+                        <div class="skill-info"><span>Managed ICT Services</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
+                    </li>
+                    <li class="skill-item">
+                        <div class="skill-info"><span>Front-End Dev (HTML/CSS/JS)</span><span>88%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="88%"></div></div>
                     </li>
                 </ul>
             </div>
@@ -320,8 +325,13 @@
     <!-- Lightbox Modal -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
+        <button class="lightbox-nav lightbox-prev">&#10094;</button>
         <img class="lightbox-content" id="lightbox-img" alt="Enlarged design view">
+        <button class="lightbox-nav lightbox-next">&#10095;</button>
     </div>
+
+    <!-- Custom Animated Cursor -->
+    <div class="cursor"></div>
 
     <script src="script.js"></script>
 </body>

@@ -1,24 +1,45 @@
-/* Custom Properties - Inbio Light Neumorphic Aesthetic */
+/* Custom Properties - Premium Glassmorphism Aesthetic */
 :root {
-    --bg-color: #ecf0f3;
-    --bg-card: #ecf0f3;
-    --text-main: #1e2125;
-    --text-muted: #3c3e41; /* Inbio body text */
+    /* Light Mode Variables */
+    --bg-color: #f4f7f6;
+    --bg-gradient: linear-gradient(135deg, #f4f7f6 0%, #e0e5ec 100%);
+    --bg-card: rgba(255, 255, 255, 0.65);
+    --text-main: #111111;
+    --text-muted: #555555;
     --accent: #ff014f;
     --accent-hover: #e00045;
-    --border: rgba(0, 0, 0, 0.05); /* very soft if used */
+    --border: rgba(255, 255, 255, 0.5);
+    --border-hover: rgba(255, 255, 255, 0.8);
     
     --font-heading: 'Inter', sans-serif;
     --font-body: 'Inter', sans-serif;
     
-    --transition: all 0.4s ease-in-out;
-    --radius: 10px;
+    --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    --radius: 16px;
     
-    /* Neumorphic Shadows */
-    --shadow-base: 5px 5px 15px #d1d9e6, -5px -5px 15px #ffffff;
-    --shadow-hover: 10px 10px 19px #d1d9e6, -10px -10px 19px #ffffff;
-    --shadow-inner: inset 5px 5px 10px #d1d9e6, inset -5px -5px 10px #ffffff;
-    --shadow-accent: 0 10px 20px rgba(255, 1, 79, 0.2);
+    /* Glassmorphic Shadows */
+    --shadow-base: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+    --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.1);
+    --card-backdrop: blur(12px) saturate(150%);
+    --shadow-accent: 0 10px 20px rgba(255, 1, 79, 0.3);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Variables */
+    --bg-color: #0d1015;
+    --bg-gradient: linear-gradient(135deg, #0d1015 0%, #171923 100%);
+    --bg-card: rgba(30, 32, 40, 0.4);
+    --text-main: #ffffff;
+    --text-muted: #a0a5aa;
+    --accent: #ff014f;
+    --accent-hover: #ff3370;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    
+    --shadow-base: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+    --card-backdrop: blur(16px) saturate(150%);
+    --shadow-accent: 0 10px 20px rgba(255, 1, 79, 0.3);
 }
 
 /* Reset & Initial Setup */
@@ -35,10 +56,13 @@ html {
 body {
     font-family: var(--font-body);
     background-color: var(--bg-color);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
     color: var(--text-muted);
     line-height: 1.6;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -89,9 +113,34 @@ ul {
 .pt-120 { padding-top: 120px; }
 .pb-80 { padding-bottom: 80px; }
 
-/* We no longer need separate dark background sections for neumorphism */
+/* Decorative Background Blobs for Glassmorphism */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: var(--transition);
+}
+body::before {
+    top: -10%;
+    left: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(255,1,79,0.15) 0%, rgba(255,1,79,0) 70%);
+}
+body::after {
+    bottom: -10%;
+    right: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(100,150,255,0.1) 0%, rgba(100,150,255,0) 70%);
+}
+
 .bg-darker {
-    background-color: var(--bg-color);
+    background-color: transparent;
 }
 
 /* Layout Utility */
@@ -120,35 +169,45 @@ ul {
     align-items: center;
 }
 
-/* Inbio Card / Universal Pattern */
+/* Global Card / Glassmorphic Pattern */
 .inbio-card, .core-card, .service-item, .portfolio-card, .timeline-item, .blog-card, .hero-image-box, .about-image-wrapper {
     background-color: var(--bg-card);
-    border-radius: 15px;
+    backdrop-filter: var(--card-backdrop);
+    -webkit-backdrop-filter: var(--card-backdrop);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
     box-shadow: var(--shadow-base);
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
 .inbio-card:hover, .core-card:hover, .service-item:hover, .portfolio-card:hover, .blog-card:hover, .about-image-wrapper:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
 }
 
 .highlight-card {
     box-shadow: var(--shadow-hover) !important;
+    border-color: var(--accent) !important;
 }
 
 /* Buttons */
 .btn {
     display: inline-block;
     padding: 15px 35px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     transition: var(--transition);
     text-align: center;
     box-shadow: var(--shadow-base);
-    background-color: var(--bg-color);
+    background-color: var(--bg-card);
+    backdrop-filter: var(--card-backdrop);
+    -webkit-backdrop-filter: var(--card-backdrop);
+    border: 1px solid var(--border);
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -156,7 +215,8 @@ ul {
 
 .btn:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    border-color: var(--accent);
     color: var(--accent-hover);
 }
 
@@ -185,10 +245,12 @@ ul {
     left: 0;
     width: 100%;
     padding: 20px 0;
-    background: rgba(236, 240, 243, 0.9);
-    backdrop-filter: blur(10px);
+    background: var(--bg-card);
+    backdrop-filter: var(--card-backdrop);
+    -webkit-backdrop-filter: var(--card-backdrop);
+    border-bottom: 1px solid var(--border);
     z-index: 100;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Soft header shadow */
+    transition: var(--transition);
 }
 
 .nav-content {
@@ -715,5 +777,27 @@ ul {
 
 .lightbox-close:hover {
     color: var(--accent);
+}
+
+/* Custom Animated Cursor */
+.cursor {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-width 0.3s ease;
+}
+
+.cursor.hovering {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 1, 79, 0.15);
+    border-width: 1px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
